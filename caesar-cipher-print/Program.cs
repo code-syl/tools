@@ -1,6 +1,6 @@
 ﻿using System.CommandLine;
 
-const string defaultAlphabet = "ABCDEFGHIJKLMNOPQRSTUVXYZ";
+const string defaultAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 var rootCommand = new RootCommand(
     "Prints all possible caesar cipher possibilities."
