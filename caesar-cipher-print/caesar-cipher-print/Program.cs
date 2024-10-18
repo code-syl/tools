@@ -1,6 +1,8 @@
 ﻿using System.CommandLine;
+using caesar_cipher_print;
 
 const string defaultAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+CaesarCipher caesar;
 
 var rootCommand = new RootCommand(
     "Prints all possible caesar cipher possibilities."
@@ -21,35 +23,13 @@ rootCommand.Add(alphabetOption);
 
 rootCommand.SetHandler((cipher, alphabet) =>
     {
-        var possibilities = GetCaesarCipherPossibilities(cipher, alphabet);
+        caesar = new CaesarCipher
+        {
+            Alphabet = alphabet
+        };
+        var possibilities = caesar.Possibilities(cipher);
         Array.ForEach(possibilities, Console.WriteLine);
     },
     cipherOption, alphabetOption);
 
 return rootCommand.Invoke(args);
-
-string[] GetCaesarCipherPossibilities(string input, string alphabet)
-{
-    var result = new string[alphabet.Length];
-    result[0] = input;
-
-    for (var i = 1; i < alphabet.Length; i++)
-    {
-        var shifted = new char[input.Length];
-        for (var j = 0; j < input.Length; j++)
-        {
-            var index = alphabet.IndexOf(input[j]);
-            if (index == -1)
-            {
-                shifted[j] = input[j];
-                continue;
-            }
-
-            shifted[j] = alphabet[(index + i) % alphabet.Length];
-        }
-
-        result[i] = new string(shifted);
-    }
-
-    return result;
-}
